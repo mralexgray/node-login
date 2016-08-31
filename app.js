@@ -15,7 +15,34 @@ var MongoStore = require('connect-mongo')(session);
 
 var app = express();
 
-app.locals.pretty = true;
+app.use(require('stylus').middleware({ src: '/node/partials' }));
+app.use('/113', express.static('/113/Site'));
+app.use('/partials', express.static('/node/partials'));
+
+app.locals = {	pretty:true }
+
+var fs = require('fs'), _ = require('underscore'), p = require('path')
+
+var lpath = '/public/img/glamour'
+var cpath = '/113/Site' + lpath
+var exts = ['.png','.jpeg','.jpg']
+app.locals = { images: [] }
+
+fs.readdir(cpath, function (err, files) {
+	console.log(files);
+	files.forEach( function(x) {
+		// if (_(exts).contains(x.split('.').pop())) {
+			var f = p.join(lpath,x)
+			console.log('found ' + f);	
+			app.locals.images += f;
+		// }
+	});
+	console.log('is is ' + app.locals.images);
+
+});
+// var is = i.map(function(z){ return lpath + '/' + z; });
+	
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/app/server/views');
 app.set('view engine', 'jade');

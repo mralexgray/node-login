@@ -1,11 +1,14 @@
+include ../../../partials/carousel
 doctype html
 html
 	head
+		//- script(src='/vendor/coffee-script.js')
 		title Node.js Login
-		link(rel='stylesheet', href='/vendor/bootstrap.min.css')
-		link(rel='stylesheet', href='/css/style.css')
-		link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css')
+		- var sheets = ['/vendor/bootstrap.min.css','/css/style.css','//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css']
+		each z in sheets
+			link(rel='stylesheet', href=z)
 	body
-
+		include ../../../partials/logo
 		block content
 		block scripts
+		+carousel('/113/Site/public/img/glamour','/113/public/img/glamour','body')
