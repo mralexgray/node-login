@@ -1,5 +1,5 @@
 
-$(document).ready(function(){
+$(function(){
 
 	var lv = new LoginValidator();
 	var lc = new LoginController();
@@ -8,13 +8,13 @@ $(document).ready(function(){
 
 	$('#login').ajaxForm({
 		beforeSubmit : function(formData, jqForm, options){
-			if (lv.validateForm() == false){
-				return false;
-			} 	else{
+			
+			return lv.validateForm() == false ? false : (function(){
+			
 			// append 'remember-me' option to formData to write local cookie //
 				formData.push({name:'remember-me', value:$('.button-rememember-me-glyph').hasClass('glyphicon-ok')});
 				return true;
-			}
+			})();
 		},
 		success	: function(responseText, status, xhr, $form){
 			if (status == 'success') window.location.href = '/home';

@@ -1,213 +1,125 @@
+[moment,crypto] = (require x for x in ['moment','crypto'])
+MongoDB = require('mongodb').Db
+Server = require('mongodb').Server
 
-var crypto 		= require('crypto');
-var MongoDB 	= require('mongodb').Db;
-var Server 		= require('mongodb').Server;
-var moment 		= require('moment');
+# ESTABLISH DATABASE CONNECTION
 
-/*
-	ESTABLISH DATABASE CONNECTION
-*/
+dbName = process.env.DB_NAME or 'node-login'
+dbHost = process.env.DB_HOST or 'localhost'
+dbPort = process.env.DB_PORT or 27017
+db = new MongoDB(dbName, new Server(dbHost, dbPort, auto_reconnect: true), w: 1)
+db.open (e, d) ->
+  if e then console.log e
+  else
+    if process.env.NODE_ENV == 'live'
+      db.authenticate process.env.DB_USER, process.env.DB_PASS, (e, res) ->
+        if e
+          console.log 'mongo :: error: not authenticated', e
+        else
+          console.log 'mongo :: authenticated and connected to database :: "' + dbName + '"'
+    else
+      console.log 'mongo :: connected to database :: "' + dbName + '"'
 
-var dbName = process.env.DB_NAME || 'node-login';
-var dbHost = process.env.DB_HOST || 'localhost'
-var dbPort = process.env.DB_PORT || 27017;
+accounts = db.collection 'accounts'
 
-var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
-db.open(function(e, d){
-	if (e) {
-		console.log(e);
-	} else {
-		if (process.env.NODE_ENV == 'live') {
-			db.authenticate(process.env.DB_USER, process.env.DB_PASS, function(e, res) {
-				if (e) {
-					console.log('mongo :: error: not authenticated', e);
-				}
-				else {
-					console.log('mongo :: authenticated and connected to database :: "'+dbName+'"');
-				}
-			});
-		}	else{
-			console.log('mongo :: connected to database :: "'+dbName+'"');
-		}
-	}
-});
+### login validation methods ###
 
-var accounts = db.collection('accounts');
+exports.autoLogin = (user, pass, callback) ->
+  accounts.findOne { user: user }, (e, o) ->
+    if o then	return (o.pass is pass and callback o or callback null)
+		callback null
 
-/* login validation methods */
+exports.manualLogin = (user, pass, callback) ->
+  accounts.findOne { user: user }, (e, o) ->
+    if o is null then callback 'user-not-found'
+    else
+      validatePassword pass, o.pass, (err, res) ->
+        res? and callback null, o or callback 'invalid-password'
 
-exports.autoLogin = function(user, pass, callback)
-{
-	accounts.findOne({user:user}, function(e, o) {
-		if (o){
-			o.pass == pass ? callback(o) : callback(null);
-		}	else{
-			callback(null);
-		}
-	});
-}
+### record insertion, update & deletion methods ###
 
-exports.manualLogin = function(user, pass, callback)
-{
-	accounts.findOne({user:user}, function(e, o) {
-		if (o == null){
-			callback('user-not-found');
-		}	else{
-			validatePassword(pass, o.pass, function(err, res) {
-				if (res){
-					callback(null, o);
-				}	else{
-					callback('invalid-password');
-				}
-			});
-		}
-	});
-}
+exports.addNewAccount = (newData, callback) ->
+  accounts.findOne { user: newData.user }, (e, o) ->
+    if o then return callback 'username-taken'
+    accounts.findOne { email: newData.email }, (e, o) ->
+      if o then return callback 'email-taken'
+      saltAndHash newData.pass, (hash) ->
+        newData.pass = hash
+        # append date stamp when record was created //
+        newData.date = moment().format('MMMM Do YYYY, h:mm:ss a')
+        accounts.insert newData, { safe: true }, callback
 
-/* record insertion, update & deletion methods */
+exports.updateAccount = (newData, callback) ->
+  accounts.findOne { _id: getObjectId(newData.id) }, (e, o) ->
+    o.name = newData.name
+    o.email = newData.email
+    o.country = newData.country
+    if newData.pass == ''
+      accounts.save o, { safe: true }, (e) ->
+        e? and callback e or callback null, o
+    else
+      saltAndHash newData.pass, (hash) ->
+        o.pass = hash
+        accounts.save o, { safe: true }, (e) ->
+          e? and callback e or callback null, o
 
-exports.addNewAccount = function(newData, callback)
-{
-	accounts.findOne({user:newData.user}, function(e, o) {
-		if (o){
-			callback('username-taken');
-		}	else{
-			accounts.findOne({email:newData.email}, function(e, o) {
-				if (o){
-					callback('email-taken');
-				}	else{
-					saltAndHash(newData.pass, function(hash){
-						newData.pass = hash;
-					// append date stamp when record was created //
-						newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
-						accounts.insert(newData, {safe: true}, callback);
-					});
-				}
-			});
-		}
-	});
-}
+exports.updatePassword = (email, newPass, callback) ->
+  accounts.findOne { email: email }, (e, o) ->
+    if e then return callback e, null
+    saltAndHash newPass, (hash) ->
+      o.pass = hash
+      accounts.save o, { safe: true }, callback
 
-exports.updateAccount = function(newData, callback)
-{
-	accounts.findOne({_id:getObjectId(newData.id)}, function(e, o){
-		o.name 		= newData.name;
-		o.email 	= newData.email;
-		o.country 	= newData.country;
-		if (newData.pass == ''){
-			accounts.save(o, {safe: true}, function(e) {
-				if (e) callback(e);
-				else callback(null, o);
-			});
-		}	else{
-			saltAndHash(newData.pass, function(hash){
-				o.pass = hash;
-				accounts.save(o, {safe: true}, function(e) {
-					if (e) callback(e);
-					else callback(null, o);
-				});
-			});
-		}
-	});
-}
+### account lookup methods ###
 
-exports.updatePassword = function(email, newPass, callback)
-{
-	accounts.findOne({email:email}, function(e, o){
-		if (e){
-			callback(e, null);
-		}	else{
-			saltAndHash(newPass, function(hash){
-		        o.pass = hash;
-		        accounts.save(o, {safe: true}, callback);
-			});
-		}
-	});
-}
+exports.deleteAccount = (id, callback) ->
+  accounts.remove { _id: getObjectId(id) }, callback
 
-/* account lookup methods */
+exports.getAccountByEmail = (email, callback) ->
+  accounts.findOne { email: email }, (e, o) -> callback o
 
-exports.deleteAccount = function(id, callback)
-{
-	accounts.remove({_id: getObjectId(id)}, callback);
-}
+exports.validateResetLink = (email, passHash, callback) ->
+  accounts.find { $and: [ {
+    email: email
+    pass: passHash
+  } ] }, (e, o) ->
+    callback if o then 'ok' else null
 
-exports.getAccountByEmail = function(email, callback)
-{
-	accounts.findOne({email:email}, function(e, o){ callback(o); });
-}
+exports.getAllRecords = (callback) ->
+  accounts.find().toArray (e, res) -> e? and callback e or callback null, res
 
-exports.validateResetLink = function(email, passHash, callback)
-{
-	accounts.find({ $and: [{email:email, pass:passHash}] }, function(e, o){
-		callback(o ? 'ok' : null);
-	});
-}
+exports.delAllRecords = (callback) -> accounts.remove {}, callback
+  # reset accounts collection for testing //
 
-exports.getAllRecords = function(callback)
-{
-	accounts.find().toArray(
-		function(e, res) {
-		if (e) callback(e)
-		else callback(null, res)
-	});
-}
+### private encryption & validation methods ###
 
-exports.delAllRecords = function(callback)
-{
-	accounts.remove({}, callback); // reset accounts collection for testing //
-}
+generateSalt = ->
+  set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ'
+  salt = ''
+  for i in [0..9]
+    p = Math.floor(Math.random() * set.length)
+    salt += set[p]
+  salt
 
-/* private encryption & validation methods */
+md5 = (str) ->
+  crypto.createHash('md5').update(str).digest 'hex'
 
-var generateSalt = function()
-{
-	var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
-	var salt = '';
-	for (var i = 0; i < 10; i++) {
-		var p = Math.floor(Math.random() * set.length);
-		salt += set[p];
-	}
-	return salt;
-}
+saltAndHash = (pass, callback) ->
+  salt = generateSalt()
+  callback salt + md5(pass + salt)
 
-var md5 = function(str) {
-	return crypto.createHash('md5').update(str).digest('hex');
-}
+validatePassword = (plainPass, hashedPass, callback) ->
+  salt = hashedPass.substr(0, 10)
+  validHash = salt + md5(plainPass + salt)
+  callback null, hashedPass is validHash
 
-var saltAndHash = function(pass, callback)
-{
-	var salt = generateSalt();
-	callback(salt + md5(pass + salt));
-}
+getObjectId = (id) -> new require('mongodb').ObjectID id
 
-var validatePassword = function(plainPass, hashedPass, callback)
-{
-	var salt = hashedPass.substr(0, 10);
-	var validHash = salt + md5(plainPass + salt);
-	callback(null, hashedPass === validHash);
-}
+findById = (id, callback) ->
+  accounts.findOne { _id: getObjectId(id) }, (e, res) ->
+    e? and callback e or callback null, res
 
-var getObjectId = function(id)
-{
-	return new require('mongodb').ObjectID(id);
-}
-
-var findById = function(id, callback)
-{
-	accounts.findOne({_id: getObjectId(id)},
-		function(e, res) {
-		if (e) callback(e)
-		else callback(null, res)
-	});
-}
-
-var findByMultipleFields = function(a, callback)
-{
-// this takes an array of name/val pairs to search against {fieldName : 'value'} //
-	accounts.find( { $or : a } ).toArray(
-		function(e, results) {
-		if (e) callback(e)
-		else callback(null, results)
-	});
-}
+findByMultipleFields = (a, callback) ->
+  # this takes an array of name/val pairs to search against {fieldName : 'value'} //
+  accounts.find($or: a).toArray (e, results) ->
+    e? and callback e or callback null, results
