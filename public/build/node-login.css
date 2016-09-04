@@ -1,0 +1,190 @@
+/*
+raiseText()
+	color red
+	text-shadow  -1px 1px 0 white
+	-moz-text-shadow  -1px 1px 0 white
+	-webkit-text-shadow  -1px 1px 0 white
+*/
+body {
+  background: -webkit--webkit-linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit--webkit-linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit--webkit-linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), -webkit--webkit-linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background: -webkit--moz-linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit--moz-linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit--moz-linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), -webkit--moz-linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background: -webkit--o-linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit--o-linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit--o-linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), -webkit--o-linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background: -webkit--ms-linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit--ms-linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit--ms-linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), -webkit--ms-linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background: -webkit-linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit-linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit-linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background: -webkit-linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit-linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), -webkit-linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background: -moz-linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), -moz-linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), -moz-linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), -moz-linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background: -o-linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), -o-linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), -o-linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), -o-linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background: -ms-linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), -ms-linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), -ms-linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), -ms-linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background: linear-gradient(0deg, #fff 2px, rgba(0,0,0,0) 2px), linear-gradient(90deg, #fff 2px, rgba(0,0,0,0) 2px), linear-gradient(0deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), linear-gradient(90deg, rgba(255,255,255,0.298) 1px, rgba(0,0,0,0) 1px), #269;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+  -webkit-background-origin: padding-box;
+  -webkit-background-origin: padding;
+  -moz-background-origin: padding;
+  background-origin: padding-box;
+  -webkit-background-clip: border-box;
+  -webkit-background-clip: border;
+  -moz-background-clip: border;
+  background-clip: border-box;
+  -webkit-background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  -webkit-background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  -moz-background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  -webkit-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/*
+	margin  0
+	padding  0
+	height  100%
+	background rgb(242,249,254)
+	background -moz-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%, rgba(214,240,253,1) 100%) // FF3.6+ 
+	background -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(242,249,254,1)), color-stop(100%,rgba(214,240,253,1))) // Chrome,Safari4+ 
+	background -webkit-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) // Chrome10+,Safari5.1+
+	background -o-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) // Opera 12+ 
+	background -ms-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) // IE10+ 
+	background radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) // W3C 
+
+h2
+	margin 0 0 6px 0
+	font-weight bold 
+
+
+h6
+	margin 2px 0 20px 0
+
+
+hr
+	margin 14px 0
+	border-top 1px solid rgb(238, 238, 238)
+	border-bottom 1px solid rgb(255, 255, 255)
+
+
+ul
+	margin 4px 0 0 0
+
+
+label, h6 
+	color #808080
+	font-size 13px
+	font-weight normal
+	text-shadow -1px 1px 0 #fff
+
+
+.well
+	background #f8f8f8
+	.tab-title
+		float left
+		margin-left 10px
+	
+	.button-top-right
+		float right
+		margin 0 10px 20px 0
+	
+	margin-bottom 0
+
+
+.navbar-btn
+	min-width 100px
+	margin-right 8px
+	.btn
+		min-width 100px
+	
+
+
+.glyphicon
+	margin-right 8px
+
+*/
+/*
+	login window
+*/
+#login {
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  position: fixed;
+  right: 0;
+}
+#login label {
+  margin-left: 2px;
+}
+#login form {
+  width: 320px;
+}
+#login .controls {
+  margin-top: 20px;
+}
+#login .controls .button-rememember-me {
+  float: left;
+  width: 150px;
+}
+#login .button-sign-in {
+  float: right;
+  width: 120px;
+}
+#login .btm-links {
+  font-size: 0.9em;
+  margin: 2px 0 0 0;
+}
+#login .btm-links #forgot-password {
+  float: left;
+  margin-left: 10px;
+}
+#login .btm-links #create-account {
+  float: right;
+  margin-right: 5px;
+}
+#account-form-container form {
+  width: 460px;
+}
+/*
+	modal windows
+*/
+.modal .modal-dialog {
+  width: 480px;
+}
+.modal .form-group {
+  margin-bottom: 0px;
+}
+.modal .alert {
+  margin-top: 10px;
+  margin-bottom: 0;
+  padding: 8px 15px 8px 15px;
+}
+.modal .alert-dismissable,
+.modal .close {
+  right: -4px;
+}
+.modal p {
+  margin: 0;
+  padding: 0;
+}
+.modal .modal-footer button {
+  width: 80px;
+}
+.center-vertical {
+  height: 100vh;
+}
+.center-vertical form {
+  top: 50%;
+  margin: auto;
+  position: relative;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.form-horizontal .form-buttons {
+  float: right;
+}
+.form-horizontal .form-buttons .btn {
+  width: 80px;
+  margin-left: 6px;
+}
+.form-horizontal input,
+.form-horizontal select {
+  height: 30px;
+}

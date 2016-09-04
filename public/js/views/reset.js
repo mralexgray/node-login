@@ -6,11 +6,7 @@ $(document).ready(function(){
 	$('#set-password-form').ajaxForm({
 		beforeSubmit : function(formData, jqForm, options){;
 			rv.hideAlert();
-			if (rv.validatePassword($('#pass-tf').val()) == false){
-				return false;
-			} 	else{
-				return true;
-			}
+			return rv.validatePassword($('#pass-tf').val())
 		},
 		success	: function(responseText, status, xhr, $form){
 			rv.showSuccess("Your password has been reset.");

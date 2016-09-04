@@ -1,21 +1,42 @@
+@import 'nib'
+// /Volumes/5T/ServiceData/GoogleDrive/_113w15/Site/public/img/glamour/wmt_26255_87565.jpg
 
+/*
 raiseText()
-	color grey
+	color red
 	text-shadow  -1px 1px 0 white
 	-moz-text-shadow  -1px 1px 0 white
 	-webkit-text-shadow  -1px 1px 0 white
+*/
 
-body 
+
+
+body
+	background: -webkit-linear-gradient(90deg, #FFFFFF 2px, rgba(0,0,0,0) 2px), -webkit-linear-gradient(0deg, #FFFFFF 2px, rgba(0,0,0,0) 2px), -webkit-linear-gradient(90deg, rgba(255,255,255,0.298039) 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(0deg, rgba(255,255,255,0.298039) 1px, rgba(0,0,0,0) 1px), rgb(34, 102, 153);
+	background: linear-gradient(0deg, #FFFFFF 2px, rgba(0,0,0,0) 2px), linear-gradient(90deg, #FFFFFF 2px, rgba(0,0,0,0) 2px), linear-gradient(0deg, rgba(255,255,255,0.298039) 1px, rgba(0,0,0,0) 1px), linear-gradient(90deg, rgba(255,255,255,0.298039) 1px, rgba(0,0,0,0) 1px), rgb(34, 102, 153);
+	background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+	-webkit-background-origin: padding-box;
+	background-origin: padding-box;
+	-webkit-background-clip: border-box;
+	background-clip: border-box;
+	-webkit-background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+	background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+
+// linear-gradient(top, white, black)
+	
+/*
 	margin  0
 	padding  0
 	height  100%
 	background rgb(242,249,254)
-	background -moz-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%, rgba(214,240,253,1) 100%) /* FF3.6+ */
-	background -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(242,249,254,1)), color-stop(100%,rgba(214,240,253,1))) /* Chrome,Safari4+ */
-	background -webkit-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) /* Chrome10+,Safari5.1+ */
-	background -o-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) /* Opera 12+ */
-	background -ms-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) /* IE10+ */
-	background radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) /* W3C */
+	background -moz-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%, rgba(214,240,253,1) 100%) // FF3.6+ 
+	background -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(242,249,254,1)), color-stop(100%,rgba(214,240,253,1))) // Chrome,Safari4+ 
+	background -webkit-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) // Chrome10+,Safari5.1+
+	background -o-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) // Opera 12+ 
+	background -ms-radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) // IE10+ 
+	background radial-gradient(center, ellipse cover,  rgba(242,249,254,1) 0%,rgba(214,240,253,1) 100%) // W3C 
 
 h2
 	margin 0 0 6px 0
@@ -67,36 +88,33 @@ label, h6
 .glyphicon
 	margin-right 8px
 
-
+*/
 /*
 	login window
 */
 
 #login
+	border-radius: left 40px;
+	fixed right
+
 	label
 		margin-left 2px
-	
 	form
 		width 320px
-	
 	.controls
 		margin-top 20px
 		.button-rememember-me
 			float left
 			width 150px
-		
-		.button-sign-in
+	.button-sign-in
 			float right
 			width 120px
-		
-	
 	.btm-links
 		font-size .9em
 		margin 2px 0 0 0
 		#forgot-password
 			float left
 			margin-left 10px
-		
 		#create-account
 			float right
 			margin-right 5px
@@ -155,4 +173,4 @@ label, h6
 		height 30px
 
 
-		
+// @import url('/holo/assets/css/holo.css')

@@ -33,12 +33,10 @@ block content
 	include modals/lost-password
 
 block scripts
-	script(src='/vendor/jquery-2.2.3.min.js')
-	script(src='/vendor/jquery.form.min.js')
-	script(src='/vendor/bootstrap.min.js')
-	script(src='/js/views/login.js')
+
+	+scripts('/js/controllers/loginController.js'
+		, '/js/views/login.js'
+		, '/js/form-validators/loginValidator.js'
+		, '/js/form-validators/emailValidator.js')
 		
-	script(src='/js/controllers/loginController.js')
 	//- script(src='/js/controllers/loginController.coffee' type='text/coffeescript')
-	script(src='/js/form-validators/loginValidator.js')
-	script(src='/js/form-validators/emailValidator.js')

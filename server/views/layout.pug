@@ -1,14 +1,35 @@
-include ../../../partials/carousel
+include ../../../partials/util
 doctype html
 html
 	head
-		//- script(src='/vendor/coffee-script.js')
-		title Node.js Login
-		- var sheets = ['/vendor/bootstrap.min.css','/css/style.css','//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css']
-		each z in sheets
-			link(rel='stylesheet', href=z)
+		title siteName
+		
+		each s in defaultCSS
+			+sheets(s)
+		each s in defaultJS
+			+scripts(s)
+		each s in defaultCS
+			+cscripts(s)
 	body
 		include ../../../partials/logo
 		block content
+		script
+			:coffee-script
+				$ ->
+					$('body').css('backgroundColor', 'red')
+					sc = new SocketController()
+
 		block scripts
-		+carousel('/113/Site/public/img/glamour','/113/public/img/glamour','body')
+			
+		//- script(src='//coffeescript.org/extras/coffee-script.js')
+		
+		//-include ../../../partials/holo
+		//-+holoNav()
+		//-+holoMenu()
+			+navItem() Vagine
+			+navItem() Section 1
+
+		//- img.img-responsive.fit(src='/113/113w15.logo.new.inverse.png')
+		//- +carousel('/113/Site/public/img/glamour','/113/public/img/glamour','body')
+		//- script(src='/vendor/coffee-script.js')
+		//- '//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css')

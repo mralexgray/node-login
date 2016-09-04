@@ -1,20 +1,20 @@
 
-function HomeController()
-{
-// bind event listeners to button clicks //
+function HomeController() {
+	
+	// bind event listeners to button clicks
 	var that = this;
 
-// handle user logout //
+	// handle user logout
 	$('#btn-logout').click(function(){ that.attemptLogout(); });
 
-// confirm account deletion //
+	// confirm account deletion 
 	$('#account-form-btn1').click(function(){$('.modal-confirm').modal('show')});
 
-// handle account deletion //
+	// handle account deletion 
 	$('.modal-confirm .submit').click(function(){ that.deleteAccount(); });
 
-	this.deleteAccount = function()
-	{
+	this.deleteAccount = function() {
+		
 		$('.modal-confirm').modal('hide');
 		var that = this;
 		$.ajax({
@@ -30,8 +30,8 @@ function HomeController()
 		});
 	}
 
-	this.attemptLogout = function()
-	{
+	this.attemptLogout = function() {
+		
 		var that = this;
 		$.ajax({
 			url: "/logout",

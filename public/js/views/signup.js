@@ -1,8 +1,7 @@
 
-$(document).ready(function(){
+$(function(){
 	
-	var av = new AccountValidator();
-	var sc = new SignupController();
+	var av = new AccountValidator(), sc = new SignupController();
 	
 	$('#account-form').ajaxForm({
 		beforeSubmit : function(formData, jqForm, options){
@@ -12,11 +11,8 @@ $(document).ready(function(){
 			if (status == 'success') $('.modal-alert').modal('show');
 		},
 		error : function(e){
-			if (e.responseText == 'email-taken'){
-			    av.showInvalidEmail();
-			}	else if (e.responseText == 'username-taken'){
-			    av.showInvalidUserName();
-			}
+			if (e.responseText == 'email-taken')			    av.showInvalidEmail();
+			else if (e.responseText == 'username-taken')  av.showInvalidUserName();
 		}
 	});
 	$('#name-tf').focus();

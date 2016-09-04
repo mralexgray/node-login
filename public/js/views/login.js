@@ -1,10 +1,9 @@
 
 $(function(){
 
-	var lv = new LoginValidator();
-	var lc = new LoginController();
+	var lv = new LoginValidator(), lc = new LoginController();
 
-// main login form //
+	// main login form
 
 	$('#login').ajaxForm({
 		beforeSubmit : function(formData, jqForm, options){
@@ -25,7 +24,7 @@ $(function(){
 	}); 
 	$('#user-tf').focus();
 	
-// login retrieval form via email //
+	// login retrieval form via email
 	
 	var ev = new EmailValidator();
 	
@@ -46,9 +45,9 @@ $(function(){
 			ev.showEmailSuccess("Check your email on how to reset your password.");
 		},
 		error : function(e){
-			if (e.responseText == 'email-not-found'){
+			if (e.responseText == 'email-not-found')
 				ev.showEmailAlert("Email not found. Are you sure you entered it correctly?");
-			}	else{
+			else{
 				$('#cancel').html('OK');
 				$('#retrieve-password-submit').hide();
 				ev.showEmailAlert("Sorry. There was a problem, please try again later.");

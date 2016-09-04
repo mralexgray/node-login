@@ -1,37 +1,22 @@
-                                                                                                                                                                            
-function SocketController()
-{
-	var socket = io()
+window['SocketController'] = ->
 
-	socket.on('jq', function(q){
+	(socket = io()).on key, val for key,val of {
 		
-		for (var key in q) for (var sel in q[key])	$(key)[sel](q[key][sel])
+		jq: (q) -> $(key)[sel] q[key][sel] for sel of q[key] for key of q
 		
-	})
-	
-	// 	$.each(value, function(sel, target) $(key)[sel](value);
+		# Whenever the server emits 'login', log the login message
+		login: (data) ->
+			# Display the welcome message
+			$('body').overhang type: 'success',message: 'Welcome to Socket.IO Chat'
 
-  // Whenever the server emits 'login', log the login message
-  socket.on('login', function (data) {
-    // Display the welcome message
-    var message = 'Welcome to Socket.IO Chat – ';
-  	$('body').overhang({
-  		type: 'success',
-  		message: message
-		});
-  });
+		data: (d) -> console.log 'data', d
 
-  
-  socket.on('data', function (data) {
-      console.log('data', data);
-  });
+		error: (r) -> console.error 'Unable to connect Socket.IO', r
 
-  socket.on('error', function (reason){
-    console.error('Unable to connect Socket.IO', reason);
-  });
+		connect: ->	console.info 'successfully established a working and authorized connection'
 
-  socket.on('connect', function (){
-    console.info('successfully established a working and authorized connection');
-  });
-  return socket;
-}
+		person: (p) ->	console.log "#{p.name} is #{p.age} years old."
+
+		notify: (note) -> $('body').overhang(note)
+		}
+	socket

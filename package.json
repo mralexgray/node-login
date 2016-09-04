@@ -12,21 +12,30 @@
   },
   "dependencies": {
     "body-parser": "1.14.1",
+    "coffee-script": "git://github.com/jashkenas/coffeescript.git",
     "connect-mongo": "0.8.2",
     "cookie-parser": "1.4.0",
     "emailjs": "^1.0.4",
     "errorhandler": "1.4.2",
     "express": "4.13.3",
+    "express-bootstrap-service": "^1.0.0",
+    "express-coffee": "0.0.9",
     "express-session": "1.11.3",
-    "jade": "1.11.0",
+    "express-socket.io-session": "^1.3.1",
+    "jstransformer-coffee-script": "^1.1.0",
     "moment": "2.10.3",
     "mongodb": "2.0.45",
-    "stylus": "0.52.4"
+    "morgan": "^1.7.0",
+    "nib": "^1.1.2",
+    "overhang": "^1.0.2",
+    "pug": "^2.0.0-beta6",
+    "socket.io": "^1.4.8",
+    "stylus": "^0.52.4"
   },
   "engines": {
     "node": "4.2.1"
   },
   "scripts": {
-    "start": "nodemon -w . -e 'coffee,less,jade,js' -x 'coffee app.coffee'"
+    "start": "nodemon -w .  -w /node/partials -e 'json,coffee,less,jade,js,pug,styl' -x 'coffee app.coffee'"
   }
 }

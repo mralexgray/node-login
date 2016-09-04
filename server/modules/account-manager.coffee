@@ -5,7 +5,7 @@ Server = require('mongodb').Server
 # ESTABLISH DATABASE CONNECTION
 
 dbName = process.env.DB_NAME or 'node-login'
-dbHost = process.env.DB_HOST or 'localhost'
+dbHost = process.env.DB_HOST or '127.0.0.1'
 dbPort = process.env.DB_PORT or 27017
 db = new MongoDB(dbName, new Server(dbHost, dbPort, auto_reconnect: true), w: 1)
 db.open (e, d) ->
@@ -13,12 +13,10 @@ db.open (e, d) ->
   else
     if process.env.NODE_ENV == 'live'
       db.authenticate process.env.DB_USER, process.env.DB_PASS, (e, res) ->
-        if e
-          console.log 'mongo :: error: not authenticated', e
-        else
-          console.log 'mongo :: authenticated and connected to database :: "' + dbName + '"'
+        e? and console.log 'mongo :: error: not authenticated', e or
+          console.log "mongo :: authenticated and connected to database :: #{dbName}"
     else
-      console.log 'mongo :: connected to database :: "' + dbName + '"'
+      console.log "mongo :: connected to database :: #{dbName}"
 
 accounts = db.collection 'accounts'
 
@@ -40,9 +38,9 @@ exports.manualLogin = (user, pass, callback) ->
 
 exports.addNewAccount = (newData, callback) ->
   accounts.findOne { user: newData.user }, (e, o) ->
-    if o then return callback 'username-taken'
+    if o then return callback('username-taken')
     accounts.findOne { email: newData.email }, (e, o) ->
-      if o then return callback 'email-taken'
+      if o then return callback('email-taken')
       saltAndHash newData.pass, (hash) ->
         newData.pass = hash
         # append date stamp when record was created //

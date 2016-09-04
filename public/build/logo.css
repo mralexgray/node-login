@@ -1,0 +1,23 @@
+#logo {
+  background-color: #f00;
+  width: 220px;
+  height: 50px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: fixed;
+  left: 0;
+  top: 40px;
+}
+#logo img {
+  position: relative;
+  top: 0;
+  height: 100%;
+  float: right;
+}
+/*
+	linear-gradient(top, white, red)
+	overflow hidden
+	position absolute
+	left -20
+	top 20px
+*/
