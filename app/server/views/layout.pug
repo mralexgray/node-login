@@ -1,0 +1,40 @@
+include ../../../../partials/util
+doctype html
+html
+	head
+		title Node.js Login
+		+sheets('/bootstrap/css'
+			,'/holo/holo.css'
+			,'/overhang/dist/overhang.min.css')
+	body
+		style
+			:stylus
+				random(min, max)
+					return floor( math(0, "random") * max + min )
+				randomC()
+					background-color hsl(random(0, 360), 50%, 50%)
+				body
+					randomC()
+				#content
+					overflow hidden
+					border-radius 25px
+					// size 90% 60%
+					border 4px solid red
+					position absolute
+					left 50%
+					top 50%
+					transform translate(-50%, -50%)
+
+		#content
+			block content
+		//- jqui for everhang
+		+scripts('/vendor/jquery-2.2.3.min.js'
+			, '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js' 
+			, '/vendor/jquery.form.min.js'
+			, '/vendor/bootstrap.min.js'
+			, '/overhang/dist/overhang.min.js'
+			, '/howler/dist/howler.min.js')
+
+		!= js('index')
+		block scripts
+			
