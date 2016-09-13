@@ -1,0 +1,43 @@
+include includes
+doctype html
+html
+	head
+		if title
+			title= title
+		+sheets('/bootstrap/css')
+		+sheets('/holo/holo.css')
+		+sheets('/overhang/dist/overhang.min.css')
+		!= css('style')
+		!= js('')
+	body
+		#login.content.cloaked.well
+			.grab
+			include login
+				
+		#signup.content.cloaked.well
+			include account
+		//- #home.content
+		//- 	include account
+			
+		//- jqui for everhang
+		
+		+scripts('/vendor/jquery-2.2.3.min.js')
+		+scripts('//cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.js')
+		+scripts('//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js' 
+			, '/vendor/jquery.form.min.js'
+			, '/vendor/bootstrap.min.js'
+			, '/overhang/dist/overhang.min.js'
+			, '/howler/dist/howler.min.js')
+
+		!= js('index')
+		!= js('loginController')
+		!= js('loginValidator')
+		!= js('emailValidator')
+		!= js('signupController')
+		!= js('accountValidator')
+		!= js('login')
+		!= js('signup')
+
+
+		if load
+			script loadPage('#{load}');

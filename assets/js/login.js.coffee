@@ -1,4 +1,4 @@
-$(document).ready ->
+$ ->
 	lv = new LoginValidator()
 	lc = new LoginController()
 	# main login form //

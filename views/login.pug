@@ -1,0 +1,74 @@
+include includes
+
+.container-fluid
+	form(data-toggle='validator', role='form')
+		.form-group
+			label.control-label(for='inputName') Name
+			input#inputName.form-control(type='text', placeholder='Cina Saffary', required='')
+		.form-group
+			label.control-label(for='inputPassword') Password
+			.form-inline.row
+				.form-group.col-sm-6
+					input#inputPassword.form-control(type='password', data-minlength='6', placeholder='Password', required='')
+					.help-block Minimum of 6 characters
+				.form-group.col-sm-6
+					input#inputPasswordConfirm.form-control(type='password', data-match='#inputPassword', data-match-error="Whoops, these don't match", placeholder='Confirm', required='')
+					.help-block.with-errors
+		.form-group
+			button.btn.btn-primary(type='submit') Submit
+
+
+
+//-#login.center-vertical
+	form.well.form-vertical#form-login
+		.control-group.warning
+			label.control-label(for='username') Username
+			.controls
+				input#username(type='text')
+				span.help-inline Username is taken
+		.control-group.warning
+			label.control-label(for='password') Password
+			.controls
+				input#password(type='text')
+				span.help-inline Invalid password
+
+		//- .form-group
+		//- 	label Username
+		//- 	input.form-control(type='text', id='user-tf', name='user')
+		//- .form-group
+		//- 	label Password
+		//- 	input.form-control(type='password', id='pass-tf', name='pass')
+		.controls
+			button(type='button').btn.btn-default.button-rememember-me
+				span.glyphicon.glyphicon-unchecked.button-rememember-me-glyph Remember Me
+			button(type='submit').btn.btn-primary.button-sign-in
+				span.glyphicon.glyphicon-lock Sign In
+		.clearfix
+		hr
+		.btm-links
+			#forgot-password
+				a(href='#') Forgot Your Password?
+			#create-account
+				a(href="javascript:void(0);" onclick="loadPage('signup');") Create An Account
+		.clearfix
+
+//- include modals/alert
+//- include modals/lost-password
+
+//- +scripts('/js/controllers/loginController.js'
+//- 	, '/js/form-validators/loginValidator.js'
+//- 	, '/js/form-validators/emailValidator.js')
+
+
+//-script
+		:coffee-script(bare=true)
+			createAccount = ->
+				getScripts [
+					'/js/controllers/signupController.js'
+					'/js/form-validators/accountValidator.js'
+				], ->
+					$.get '/signup', (data) ->
+						# console.log data
+						$('#content').html data
+						getScripts ['/assets/signup.js']
+

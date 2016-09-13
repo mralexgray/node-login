@@ -17,13 +17,14 @@
     "k-cup": "*",
     "moment": "2.10.3",
     "mongodb": "^2.2.9",
-    "overhang": "^1.0.2"
+    "overhang": "^1.0.2",
+    "slidemenu": "git+https://github.com/fissionman924/slidemenu.git"
   },
   "engines": {
     "node": "4.2.1"
   },
   "scripts": {
-    "start": "coffee app.coffee",
-    "alt" : "nodemon -w . -e 'coffee,json' -x 'coffee app.coffee'"
+    "start2": "coffee app.coffee",
+    "start": "nodemon -w . -e 'coffee,json' -x 'coffee app.coffee'"
   }
 }

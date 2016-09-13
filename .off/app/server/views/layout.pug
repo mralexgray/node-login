@@ -2,10 +2,12 @@ include ../../../../partials/util
 doctype html
 html
 	head
-		title Node.js Login
-		+sheets('/bootstrap/css'
-			,'/holo/holo.css'
-			,'/overhang/dist/overhang.min.css')
+		if title
+			title= title
+		+sheets('/bootstrap/css')
+		+sheets('/holo/holo.css')
+		+sheets('/overhang/dist/overhang.min.css')
+		
 	body
 		style
 			:stylus
@@ -15,7 +17,7 @@ html
 					background-color hsl(random(0, 360), 50%, 50%)
 				body
 					randomC()
-				#content
+				.content
 					overflow hidden
 					border-radius 25px
 					// size 90% 60%
@@ -28,13 +30,15 @@ html
 		#content
 			block content
 		//- jqui for everhang
-		+scripts('/vendor/jquery-2.2.3.min.js'
+		+scripts(\
+			  '/vendor/jquery-2.2.3.min.js'
 			, '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js' 
 			, '/vendor/jquery.form.min.js'
 			, '/vendor/bootstrap.min.js'
 			, '/overhang/dist/overhang.min.js'
-			, '/howler/dist/howler.min.js')
+			, '/howler/dist/howler.min.js'\
+		)
 
 		!= js('index')
 		block scripts
-			
+		
