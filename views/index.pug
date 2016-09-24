@@ -1,14 +1,17 @@
-include includes
 doctype html
 html
+	include includes
 	head
 		if title
 			title= title
-		+sheets('/bootstrap/css')
-		+sheets('/holo/holo.css')
+		//- +sheets('/bootstrap/css')
+		//- +sheets('/holo/holo.css')
 		+sheets('/overhang/dist/overhang.min.css')
-		!= css('style')
-		!= js('')
+		//- != css('style')
+		//- != js('')
+		+scripts('/vendor/jquery-2.2.3.min.js')
+
+		block neck
 	body
 		#login.content.cloaked.well
 			.grab
@@ -21,23 +24,19 @@ html
 			
 		//- jqui for everhang
 		
-		+scripts('/vendor/jquery-2.2.3.min.js')
-		+scripts('//cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.js')
+		block content
+			
+		//- +scripts('//cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.js')
 		+scripts('//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js' 
 			, '/vendor/jquery.form.min.js'
-			, '/vendor/bootstrap.min.js'
 			, '/overhang/dist/overhang.min.js'
 			, '/howler/dist/howler.min.js')
+		//- , '/vendor/bootstrap.min.js'
 
-		!= js('index')
-		!= js('loginController')
-		!= js('loginValidator')
-		!= js('emailValidator')
-		!= js('signupController')
-		!= js('accountValidator')
-		!= js('login')
-		!= js('signup')
+		!= js('emailValidator','loginValidator','accountValidator')
+		!= js('loginController','signupController')
+		!= js('index','login','signup')
 
 
-		if load
-			script loadPage('#{load}');
+		//- if load
+			//- script loadPage('#{load}');

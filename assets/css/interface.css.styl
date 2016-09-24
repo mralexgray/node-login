@@ -1,172 +1,348 @@
-@import 'nib'
 @import 'normalize'
+@import 'nib'
+
+.dark
+	background #2b3033
+
+.logo
+	@extends .dark
+	fixed top right
+	// top 5 vh
+	size 20vw 10vh
+	z-index 1000
+	img
+		max-width 100%
+		max-height 9vh
+		position relative
+		
+// colors = {
+// 	blue: 	#5fc7ea
+// 	red: 		#e68568
+// 	yellow: #e6d068
+// 	green: 	#68e6ac
+// }
+
+// for key, value in colors
+// 	.c-{key}
+// 		color: value
+// 	.b-{key}
+// 		background: value
+
+*
+	box-sizing border-box
+
+body
+	font-family 'Lato'
+	line-height 1.5
+	font-smoothingantialiased
+
+ul
+	list-style-type none
+	padding 0
+	margin 0
+
+.nav
+	position fixed
+	z-index 1
+	top 0
+	left 0
+	width 100px
+	backface-visibility hidden
+
+.nav__list
+	display flex
+	flex-flow column wrap
+	height 85vh
+	transform translate(0, -100%)
+	transition all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+
+.nav__list--active
+	transform translate(0, 0)
+
+.nav__item
+	flex 1
+	position relative
+
+.nav__link
+	display flex
+	justify-content center
+	align-items center
+	position absolute
+	size 100% 100%
+	top 0
+	left 0
+	text-decoration none
+	font-size 24px
+	@extends .dark
+	transition all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+	&:hover
+		background #272b2e
+
+@media (max-width: 640px)
+	.nav
+		width 70px
+	.nav__list
+		height 90vh
 
 
-// .max-size
-//   size 100% 100%
-  
+
+.panel
+	min-height 100vh
+	display flex
+	align-items center
+	justify-content center
+	overflow hidden
+	p
+		margin 0 0 25px 0
+		color #1a1a1a
+		font-size 24px
+		max-width 800px
+		&:last-child
+			margin-bottom 0
+
+.panel__wrapper
+	padding 7vh 7vw
+	perspective 1000px
+
+.panel__content
+	
+	margin 20vh // left margin
+	
+	will-change transform
+	transform scale(0.7) rotateX(-230deg)
+	transform-origin center 80%
+	opacity 0
+	transition all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+	
+
+.panel__content--active
+	transform none
+	opacity 1
+
+.panel__headline
+	font-weight 700
+	opacity 0.8
+	font-size 48px
+	margin 0 0 25px 0
+
+.panel__block
+	height 3px
+	background rgba(0, 0, 0, 0.2)
+	margin 0 0 25px 0
+
+@media (max-width: 640px)
+	.panel__headline
+		font-size 36px
+	.panel__wrapper
+		padding 10vh 10vw
+	.panel
+		p
+			font-size 16px
+
+
+/*
+.c-blue {
+	color: #5fc7ea; }
+
+.c-red {
+	color: #e68568; }
+
+.c-green {
+	color: #68e6ac; }
+
+.c-yellow {
+	color: #e6d068; }
+
+.b-blue {
+	background: #5fc7ea; }
+
+.b-red {
+	background: #e68568; }
+
+.b-green {
+	background: #68e6ac; }
+
+.b-yellow {
+	background: #e6d068; }
+
+.logo {
+	position: fixed;
+	bottom: 3vh;
+	right: 3vw;
+	z-index: 2; }
+	.logo img {
+		width: 65px;
+		transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		transform: rotate(0); }
+		.logo img:hover {
+			transform: rotate(180deg) scale(1.1); }
+*/
+/*
+
+.max-size
+	size 100% 100%
+	
 $nav-bg = #2b3033
-// $blue = 
-// $red = #e68568
-// $yellow = #e6d068
-// $green = #68e6ac
-// 
+
 colors = {
-  blue: #5fc7ea
-  red: #e68568
-  yellow: #e6d068
-  green: #68e6ac
+	blue: #5fc7ea
+	red: #e68568
+	yellow: #e6d068
+	green: #68e6ac
 }
+for key, value in colors
+	.c-{key}
+		color: value
+	.b-{key}
+		background: value
 
 $ease = all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)
 $content-animation = scale(0.7) rotateX(-230deg)
 
 *
-  box-sizing: border-box
+	box-sizing: border-box
 body
-  font-family: 'Lato'
-  line-height: 1.5
-  font-smoothing: antialiased
+	font-family: 'Lato'
+	line-height: 1.5
+	font-smoothing: antialiased
 ul
-  list-style-type: none
-  padding: 0
-  margin: 0
+	list-style-type: none
+	padding: 0
+	margin: 0
 .nav
-  position: fixed
-  z-index: 1
-  top: 0
-  left: 0
-  width: 10%
-  backface-visibility: hidden
-  &__list
-    display: flex
-    flex-flow: column wrap
-    height: 85vh
-    transform: translate(0, -100%)
-    transition: $ease
-    &--active
-      transform: translate(0, 0)
-  &__item
-    flex: 1
-    position: relative
-  &__link
-    display: flex
-    justify-content: center
-    align-items: center
-    position: absolute
-    width: 100%
-    height: 100%
-    top: 0
-    left: 0
-    text-decoration: none
-    font-size: 24px
-    background: $nav-bg
-    transition: $ease
-    &:hover
-      background: mix(black, $nav-bg, 10)
-  @media (max-width: 640px)
-    width: 70px
-    &__list
-      height: 90vh
+	position: fixed
+	z-index: 1
+	top: 0
+	left: 0
+	width: 10%
+	backface-visibility: hidden
+	&__list
+		display: flex
+		flex-flow: column wrap
+		height: 85vh
+		transform: translate(0, -100%)
+		transition: $ease
+		&--active
+			transform: translate(0, 0)
+	&__item
+		flex: 1
+		position: relative
+	&__link
+		display: flex
+		justify-content: center
+		align-items: center
+		position: absolute
+		width: 100%
+		height: 100%
+		// size: 100% 100%
+		top: 0
+		left: 0
+		text-decoration: none
+		font-size: 24px
+		background: $nav-bg
+		transition: $ease
+		&:hover
+			background: mix(black, $nav-bg, 10)
+	@media (max-width: 640px)
+		width: 70px
+		&__list
+			height: 90vh
 .burger
-  height: 15vh
-  position: relative
-  display: flex
-  justify-content: center
-  align-items: center
-  z-index: 2
-  background: $nav-bg
-  cursor: pointer
-  transition: $ease
-  &:hover
-    background: mix(black, $nav-bg, 10)
-  &__patty
-    position: relative
-    height: 2px
-    width: 40px
-    background: white
-    &:before
-      content: ""
-      position: absolute
-      top: -10px
-      left: 0
-      height: 2px
-      width: 100%
-      background: white
-    &:after
-      content: ""
-      position: absolute
-      top: 10px
-      left: 0
-      height: 2px
-      width: 100%
-      background: white
-  &__patty,
-  &__patty:before,
-  &__patty:after
-    will-change: transform
-    transition: $ease
-  &--active
-    .burger__patty
-      transform: rotate(90deg)
-      &:before
-        transform: rotate(-45deg) translate(-7px, -7px) scaleX(0.7)
-      &:after
-        transform: rotate(45deg) translate(-7px, 7px) scaleX(0.7)
-  @media (max-width: 640px)
-    height: 10vh
-    &__patty
-      transform: scale(0.8)
-    &--active
-      .burger__patty
-        transform: scale(0.8) rotate(90deg)
+	height: 15vh
+	position: relative
+	display: flex
+	justify-content: center
+	align-items: center
+	z-index: 2
+	background: $nav-bg
+	cursor: pointer
+	transition: $ease
+	&:hover
+		background: mix(black, $nav-bg, 10)
+	&__patty
+		position: relative
+		height: 2px
+		width: 40px
+		background: white
+		&:before
+			content: ""
+			position: absolute
+			top: -10px
+			left: 0
+			height: 2px
+			width: 100%
+			background: white
+		&:after
+			content: ""
+			position: absolute
+			top: 10px
+			left: 0
+			height: 2px
+			width: 100%
+			background: white
+	&__patty,
+	&__patty:before,
+	&__patty:after
+		will-change: transform
+		transition: $ease
+	&--active
+		.burger__patty
+			transform: rotate(90deg)
+			&:before
+				transform: rotate(-45deg) translate(-7px, -7px) scaleX(0.7)
+			&:after
+				transform: rotate(45deg) translate(-7px, 7px) scaleX(0.7)
+	@media (max-width: 640px)
+		height: 10vh
+		&__patty
+			transform: scale(0.8)
+		&--active
+			.burger__patty
+				transform: scale(0.8) rotate(90deg)
+				
+/ * each "page" * /
 .panel
-  min-height: 80vh
-  display: flex
-  align-items: center
-  justify-content: center
-  overflow: hidden
-  &__wrapper
-    padding: 7vh 7vw
-    perspective: 1000px
-  &__content
-    will-change: transform
-    transform: $content-animation
-    transform-origin: center 80%
-    opacity: 0
-    transition: $ease
-    &--active
-      transform: none
-      opacity: 1
-  &__headline
-    font-weight: 700
-    opacity: 0.8
-    font-size: 48px
-    margin: 0 0 25px 0
-  p
-    margin: 0 0 25px 0
-    color: lighten(black, 10)
-    font-size: 24px
-    max-width: 800px
-    &:last-child
-      margin-bottom: 0
-  &__block
-    height: 3px
-    background: rgba(black, 0.2)
-    margin: 0 0 25px 0
-  @media (max-width: 640px)
-    &__headline
-      font-size: 36px
-    &__wrapper
-      padding: 10vh 10vw
-    p
-      font-size: 16px
+	min-height: 100vh // !important
+	display: flex
+	align-items: center
+	justify-content: center
+	overflow: hidden
+	&__wrapper
+		padding: 7vh 7vw
+		perspective: 1000px
+	&__content
+		will-change: transform
+		transform: $content-animation
+		transform-origin: center 80%
+		opacity: 0
+		transition: $ease
+		&--active
+			transform: none
+			opacity: 1
+	&__headline
+		font-weight: 700
+		opacity: 0.8
+		font-size: 48px
+		margin: 0 0 25px 0
+	p
+		margin: 0 0 25px 0
+		color: lighten(black, 10)
+		font-size: 24px
+		max-width: 800px
+		&:last-child
+			margin-bottom: 0
+	&__block
+		height: 3px
+		background: rgba(black, 0.2)
+		margin: 0 0 25px 0
+	@media (max-width: 640px)
+		&__headline
+			font-size: 36px
+		&__wrapper
+			padding: 10vh 10vw
+		p
+			font-size: 16px
 
-for key, value in colors
-  .c-{key}
-    color: value
-  .b-{key}
-    background: value
 // .c-blue
 //   color: $blue
 // .c-red
@@ -195,3 +371,71 @@ for key, value in colors
 //     transform: rotate(0)
 //     &:hover
 //       transform: rotate(180deg) scale(1.1)
+
+// $blue = 
+// $red = #e68568
+// $yellow = #e6d068
+// $green = #68e6ac
+// 
+
+*/
+
+hamburger()
+	.burger
+		height 15vh
+		position relative
+		display flex
+		justify-content center
+		align-items center
+		z-index 2
+		background #2b3033
+		cursor pointer
+		transition all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+		&:hover
+			background #272b2e
+
+	patty_part(before = true)
+		content ""
+		position absolute
+		left 0
+		height 2px
+		width 100%
+		background white
+		if before
+			top -10px
+		else 
+			top 10px
+
+	.burger__patty
+		position relative
+		size 40px 2px
+		background white
+		&:before
+			patty_part()
+		&:after
+			patty_part(false)
+
+	.burger__patty
+	.burger__patty:before
+	.burger__patty:after
+		will-change transform
+		transition all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+
+	.burger--active
+		.burger__patty
+			transform rotate(90deg)
+			&:before
+				transform rotate(-45deg) translate(-7px, -7px) scaleX(0.7)
+			&:after
+				transform rotate(45deg) translate(-7px, 7px) scaleX(0.7)
+
+	@media (max-width: 640px)
+		.burger
+			height 10vh
+		.burger__patty
+			transform scale(0.8)
+		.burger--active
+			.burger__patty
+				transform scale(0.8) rotate(90deg)
+
+hamburger()

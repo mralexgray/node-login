@@ -1,8 +1,12 @@
+//- extends index
+
+
+//-block neck
 include includes
 
 mixin listItem(x)
-	li.nav__item
-		- index = sections.indexOf(x) + 1
+	- index = sections.indexOf(x) + 1
+	li.nav__item(data-color=x.color, data-index=index)
 		a.nav__link(href='#'+index class='c-'+x.color)
 			i.fa(class='fa-' + x.icon)
 
@@ -24,26 +28,37 @@ mixin panel(x)
 				.panel__block
 					p #{x.text}
 
-doctype html
-html
-	head
-		+vport()
-		+fa()
-		+font('Lato:300,700')
-		!= css('interface')
-		
-		
-	body
-		nav.nav
-			.burger
-				.burger__patty
-			ul.nav__list
-				+listitems()
-		+panels()
+head
+	+vport()
+	+fa()
+	+font('Lato:300,700')
+	
+	!= css('interface')
+//- sheets('../interface/style.css')
 
-		+jquery()
-		!= js('interface')
-							
+//- style
+//- 	include ../interface/style.css
+
+		
+//- block content
+body
+	//- include ../../partials/wowza
+	include ../../partials/camera
+	.logo
+		img(src=logo)
+	nav.nav
+		.burger
+			.burger__patty
+		ul.nav__list
+			+listitems()
+	+panels()
+
+	+jquery()
+	+scripts('/socket.io-client/socket.io.js')
+	!= js('socketController')
+	!= js('interface')
+	//- - carouselTarget = '.panel'
+	include ../../partials/carousel					
 
 
 

@@ -1,45 +1,47 @@
-menu = document.querySelector('.nav__list')
-burger = document.querySelector('.burger')
-doc = $(document)
-l = $('.scrolly')
-panel = $('.panel')
-vh = $(window).height()
+$ ->
+	
+	[menu, burger] = ($(x).first() for x in ['.nav__list','.burger'])
+	[doc,panel] = ($(x) for x in [document,'.panel'])
 
-openMenu = ->
-	burger.classList.toggle 'burger--active'
-	menu.classList.toggle 'nav__list--active'
-	return
+	openMenu = ->
+		for x,i in [burger,menu]
+			x.toggleClass ['burger--active','nav__list--active'][i] 
+	scrollFx = ->
+		ds = doc.scrollTop()
+		offs = $(window).height() / ($('.panel').size() - 1)
+		# if the panel is in the viewport, reveal the content, if not, hide it.
+		panel.each ->
+			sel = $(@).offset().top < ds + offs and 'addClass' or 'removeClass'
+			$(@).find('.panel__content')[sel] 'panel__content--active'
 
-# reveal content of first panel by default
-panel.eq(0).find('.panel__content').addClass 'panel__content--active'
+	scrolly = (e) ->
+		e.preventDefault()
+		target = @hash
+		$('html, body').stop().animate
+			'scrollTop': $(target).offset().top
+		, 300, 'swing', -> window.location.hash = target
 
-scrollFx = ->
-	ds = doc.scrollTop()
-	offs = vh / 4
-	# if the panel is in the viewport, reveal the content, if not, hide it.
-	i = 0
-	while i < panel.length
-		if panel.eq(i).offset().top < ds + offs
-			panel.eq(i).find('.panel__content').addClass 'panel__content--active'
-		else
-			panel.eq(i).find('.panel__content').removeClass 'panel__content--active'
-		i++
-	return
+	# reveal content of first panel by default
+	panel.first().find('.panel__content').addClass 'panel__content--active'
 
-scrolly = (e) ->
-	e.preventDefault()
-	target = @hash
-	$target = $(target)
-	$('html, body').stop().animate { 'scrollTop': $target.offset().top }, 300, 'swing', ->
-		window.location.hash = target
-		return
-	return
+	$('.nav__item').each ->
+		c = $(@).data 'color'
+		$(@).find('.nav__link').css color: c
+		$('#' + $(@).data('index')).css background: c
+	$(burger).click openMenu
+	$(window).on 'scroll', scrollFx
+	$(window).on 'load', scrollFx
+	$('a[href^="#"]').click scrolly
+	
+	# sc = new SocketController()
 
-init = ->
-	burger.addEventListener 'click', openMenu, false
-	window.addEventListener 'scroll', scrollFx, false
-	window.addEventListener 'load', scrollFx, false
-	$('a[href^="#"]').on 'click', scrolly
-	return
 
-doc.on 'ready', init
+	# window.addEventListener 'scroll', scrollFx, false
+	# window.addEventListener 'load', scrollFx, false
+
+
+# menu = document.querySelector('.nav__list')
+	# burger = document.querySelector('.burger')
+	# l = $('.scrolly')
+	
+	

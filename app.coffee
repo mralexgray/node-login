@@ -53,9 +53,36 @@ app = require('k-cup')
 	staticDirs:
 		'/':			"#{process.cwd()}/app/public"
 		'/holo': 	'/css/holo/assets/css'
-	locals: sections: do -> require.reload './site'
+		'/113': '/113/Site'
+	locals:
+		logo: '/113/113w15.logo.new.inverse.png'
+		sections: do -> 
+			x = require.reload './site'
+			console.log 'reloaded: '+x
+			x
 
-app.listen 4030, -> console.log 'port 4030'
+glamourShots = (base,pub) ->
+	console.log "search pat #{patt = base + '*.@(png|jpeg|jpg)'}"
+	z = glob.sync patt
+	.map (c) -> src: "#{pub}/#{path.basename c}"
+	slides: z
+	preload: true
+	transition: 'blur'
+	
+
+imgs = glamourShots "/113/Site/#{pub = 'public/img/glamour'}/", "/113/#{pub}"
+console.log imgs
+
+app.io.on 'connection', (s) ->
+	
+	app.sock = s
+	console.log "socket conected." ## : #{require('util').inspect s}"
+	s.emit x,y for x,y of {
+		# person: name: 'Rene', age: 26
+		# notify: type: "success", message: "Woohoo! Connected!"
+		carousel: imgs }
+
+app.listen()
 
 # http = require('http')
 # express = require('express')

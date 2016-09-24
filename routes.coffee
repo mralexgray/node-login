@@ -126,10 +126,10 @@ module.exports = (app) ->
 		p = path.basename(req.originalUrl)
 		console.log 'path is ' + p
 		res.render p, {}, (err, html) ->
-			if err
+			if err?
 				console.log err
 				return next()
-			res.send html
+			else res.send html
 			
 				
 	###
