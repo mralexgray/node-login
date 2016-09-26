@@ -1,65 +1,21 @@
-###*
-	* Node.js Login Boilerplate
-	* More Info : http://kitchen.braitsch.io/building-a-login-system-in-node-js-and-mongodb/
-	* Copyright (c) 2013-2016 Stephen Braitsch
-*
-
-###
-# Reloading modules from the repl in Node.js
-# Benjamin Gleitzman (gleitz@mit.edu)
-#
-# Inspired by Ben Barkay
-# http://stackoverflow.com/a/14801711/305414
-#
-# Usage: `node reload.js`
-# You can load the module as usual
-# var mymodule = require('./mymodule')
-# And the reload it when needed
-# mymodule = require.reload('./mymodule')
-
-# Removes a module from the cache.
-require.uncache = (moduleName) ->
-  # Run over the cache looking for the files loaded by the specified module name
-  require.searchCache moduleName, (mod) ->
-    delete require.cache[mod.id]
-
-# Runs over the cache to search for all the cached files.
-require.searchCache = (moduleName, callback) ->
-  # Resolve the module identified by the specified name
-  mod = @.resolve(moduleName)
-  # Check if the module has been resolved and found within the cache
-  if mod? and (mod = @.cache[mod])?
-    # Recursively go over the results
-    ((mod) ->
-      # Go over each of the module's children and
-      # run over it
-      mod.children.forEach (child) ->
-        run child
-      # Call the specified callback providing the
-      # found module
-      callback mod
-    ) mod
-
-# Load a module, clearing it from the cache if necessary.
-
-require.reload = (moduleName) ->
-  @.uncache moduleName
-  @ moduleName
-
-
-
+# require './reloadable'
 
 app = require('k-cup')
 	staticDirs:
 		'/':			"#{process.cwd()}/app/public"
 		'/holo': 	'/css/holo/assets/css'
-		'/113': '/113/Site'
+		'/113': 	'/113/Site'
 	locals:
 		logo: '/113/113w15.logo.new.inverse.png'
-		sections: do -> 
-			x = require.reload './site'
-			console.log 'reloaded: '+x
-			x
+		sections: require './site'
+
+# app.set 'view cache', false
+
+# require('watch-glob') ['**/*'], callbackArg: 'relative', (filePath) ->
+# 	console.log "#{filePath} changed"
+# 	switch filePath
+# 		when 'site.coffee'
+# 			app.locals.sections = require './site'
 
 glamourShots = (base,pub) ->
 	console.log "search pat #{patt = base + '*.@(png|jpeg|jpg)'}"
@@ -68,13 +24,13 @@ glamourShots = (base,pub) ->
 	slides: z
 	preload: true
 	transition: 'blur'
-	
+
 
 imgs = glamourShots "/113/Site/#{pub = 'public/img/glamour'}/", "/113/#{pub}"
 console.log imgs
 
 app.io.on 'connection', (s) ->
-	
+
 	app.sock = s
 	console.log "socket conected." ## : #{require('util').inspect s}"
 	s.emit x,y for x,y of {
@@ -109,7 +65,7 @@ app.listen()
 # dbName = process.env.DB_NAME or 'node-login'
 # dbURL = 'mongodb://' + dbHost + ':' + dbPort + '/' + dbName
 # if app.get('env') is 'live'
-# 	# prepend url with authentication credentials // 
+# 	# prepend url with authentication credentials //
 # # 	dbURL = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + dbHost + ':' + dbPort + '/' + dbName
 # # app.use session(
 # # 	secret: 'faeb4453e5d14fe6f6d04637f78077c76c73d1b4'
@@ -124,3 +80,13 @@ app.listen()
 
 # http.createServer(app).listen 5000, ->
 # 	console.log 'Express server listening on port ' + app.get('port')
+
+###*
+	* Node.js Login Boilerplate
+	* More Info : http://kitchen.braitsch.io/building-a-login-system-in-node-js-and-mongodb/
+	* Copyright (c) 2013-2016 Stephen Braitsch
+*
+
+###
+
+

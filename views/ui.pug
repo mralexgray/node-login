@@ -1,68 +1,68 @@
 //- extends index
-
-
 //-block neck
+
 include includes
 
 mixin listItem(x)
 	- index = sections.indexOf(x) + 1
-	li.nav__item(data-color=x.color, data-index=index)
-		a.nav__link(href='#'+index class='c-'+x.color)
+	li(data-color=x.color, data-index=index)
+		a(href='#'+index, class='c-'+x.color)
 			i.fa(class='fa-' + x.icon)
 
 mixin listitems
 	each x in sections
 		+listItem(x)
 
-mixin panels
-	each x in sections
-		+panel(x)
-		
 mixin panel(x)
 	- index = sections.indexOf(x) + 1
-	section.panel(class='b-'+x.color, id=index)
+	section.panel(style='background:' + x.color, id=index)
 		article.panel__wrapper
 			.panel__content
 				h1.panel__headline
-					i.fa(clas='fa-'+x.icon) &nbsp; #{x.title}
+					i.fa(class='fa-'+x.icon) &nbsp; #{x.title}
 				.panel__block
 					p #{x.text}
+
 
 head
 	+vport()
 	+fa()
 	+font('Lato:300,700')
-	
+	//- +line-awesome()
 	!= css('interface')
+	+_()
+
 //- sheets('../interface/style.css')
-
-//- style
-//- 	include ../interface/style.css
-
-		
-//- block content
 body
 	//- include ../../partials/wowza
-	include ../../partials/camera
+	#cam.hidden
+		include ../../partials/camera
 	.logo
 		img(src=logo)
-	nav.nav
-		.burger
-			.burger__patty
-		ul.nav__list
+	#nav-zone
+	nav#nav
+		#burger
+			.patty
+		ul
 			+listitems()
-	+panels()
-
-	+jquery()
+	#panels
+		each x in sections
+			+panel(x)
 	+scripts('/socket.io-client/socket.io.js')
 	!= js('socketController')
 	!= js('interface')
-	//- - carouselTarget = '.panel'
-	include ../../partials/carousel					
+	include ../../partials/carousel
+	+cdn('jquery-scrollTo/2.1.0/jquery.scrollTo.min.js')
+	+scripts('//rawgithub.com/wtm/jquery.snapscroll/master/core/jquery.snapscroll.js')
+
+	script
+		:coffee-script
+			$ -> $('#panels').snapscroll()
 
 
 
 
+//- - carouselTarget = '.panel'
 //- a.logo(href="http://ettrics.com/code/vertical-layout-navigation/",target="_blank")
-			img.logo(src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/45226/ettrics-logo.svg", alt="") 
+			img.logo(src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/45226/ettrics-logo.svg", alt="")
 	- <a href="#2" class="nav__link c-yellow scrolly"><i class="fa fa-bolt"></i></a>

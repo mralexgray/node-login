@@ -19,6 +19,7 @@
     "mongodb": "^2.2.9",
     "overhang": "^1.0.2",
     "slidemenu": "git+https://github.com/fissionman924/slidemenu.git",
+    "stylus": "^0.54.5",
     "vegas": "^2.2.1"
   },
   "engines": {
@@ -26,6 +27,6 @@
   },
   "scripts": {
     "start2": "coffee app.coffee",
-    "start": "nodemon -w . -x 'coffee app.coffee'"
+    "start": "nodemon -w 'site.coffee' -x 'coffee app.coffee'"
   }
 }
