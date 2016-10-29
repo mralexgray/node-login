@@ -1,4 +1,4 @@
-eep = ->
+window.eep = ->
 	sound = new Howl(
 		src: ['/sounds/eep.wav']
 		autoplay: true
@@ -29,7 +29,7 @@ loadPage = (page) ->
 	console.log "loading #{page}"
 	$("##{page}").show(500)
 	# $('#content').html(it.show().html())
-	
+
 	# $.get #contpage, (data) ->
 		# $('#content').html data
 		# getScripts ["/assets#{page}.js"]
@@ -37,5 +37,5 @@ loadPage = (page) ->
 loadContent = (controllers, page) ->
 	if not page	then return loadPage controllers
 	else getScripts controllers, -> loadPage page
-		
+
 # $ -> $('.component').hide()

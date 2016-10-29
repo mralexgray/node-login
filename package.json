@@ -27,6 +27,6 @@
   },
   "scripts": {
     "start2": "coffee app.coffee",
-    "start": "nodemon -w 'site.coffee' -x 'coffee app.coffee'"
+    "start": "nodemon -w 'site.coffee' -w 'app.coffee' -x 'coffee app.coffee'"
   }
 }

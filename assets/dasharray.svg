@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%">
+
+		<!-- baseProfile="tiny" -->
+<!-- =====================================================================-->
+<!-- animate-elem-35-t.svg                                                -->
+<!--                                                                      -->
+<!-- Tests animation of attributes stroke-dasharray, stroke-dashoffset,   -->
+<!-- stroke-miterlimit, stroke-linecap and stroke-linjoin.                -->
+<!--                                                                      -->
+<!-- Author : Jakob Cederquist,  21-Oct-2003                              -->
+
+
+		 <!-- The attribute "fill" of the element <animate> is invalid -->
+
+		<!-- viewBox="0 0 100 100"> -->
+<!-- <g> -->
+<rect x="0%" y="0%" rx="0" ry="0" fill="transparent" stroke="white" stroke-width="6" width="100%" height="100%">
+    <!-- <animate attributeName="fill" dur="14s" values="magenta;yellow;black;lime;orange" repeatCount="indefinite"/> -->
+		</rect>
+<rect x="0%" y="0%" rx="0" ry="0" fill="transparent"
+		stroke-dasharray="20" stroke-dashoffset="20" stroke="black" stroke-width="6"
+			 transform="translate(0, 500, 1000, 0)" width="100%" height="100%">
+		    <animate attributeName="stroke-dashoffset" dur="200s" values="0;10000" repeatCount="indefinite"/>
+    <!-- <animate attributeName="stroke-width" dur="10s" values="5;15;5" repeatCount="indefinite"/> -->
+<!-- <animate attributeName="cx" dur="3s" values="250;200;250" repeatCount="indefinite"/> -->
+</rect>
+
+<!-- </g> -->
+<!-- 	<animate id="stroke1" begin="0; stroke1.end;" dur="5" attributeName="stroke-dashoffset" from="0" to="100" />
+	<animate id="stroke2" begin="stroke1.end" dur="5" attributeName="stroke-dashoffset" from="100" to="0" repeatCount="indefinite" />
+	<animateColor attributeName="fill"  begin=" " dur="2" fill="freeze" />
+	<animateColor attributeName="fill"	values="red;orange" dur="10s" begin="0s; anim5.end" fill="freeze" /> -->
+	<!-- id="svg-root" -->
+	<!-- <animateColor id="anim2" attributeName="fill"	begin="anim1.end" dur=".5s" from="orange" to="yellow" fill="freeze"/>
+	<animateColor id="anim3" attributeName="fill"	begin="anim2.end" dur=".5s" from="yellow" to="green" fill="freeze"/>
+	<animateColor id="anim4" attributeName="fill"				begin="anim3.end" dur="1s" from="green" to="blue" fill="freeze"/>
+	<animateColor id="anim5" attributeName="fill"		begin="anim4.end" dur=".5s" from="blue" to="red" fill="freeze"/> --> -->
+<!-- </g> -->
+<!-- </g>
+	<rect fill="none" x="5%" y="5%" rx="10" ry="10" stroke-offset="0" stroke="black" stroke-width="5" stroke-dasharray="10" 	transform="translate(0)" width="80%" height="80%" />
+	<animate id="stroke1" begin="0; stroke1.end;" dur="5" attributeName="stroke-dashoffset" from="0" to="100" />
+	<animate id="stroke2" begin="stroke1.end" dur="5" attributeName="stroke-dashoffset" from="100" to="0" repeatCount="indefinite" />
+</g>-->
+
+<!-- <g> -->
+
+<!-- <use x="0" y="60" xlink:href="#animated"/> -->
+
+<!-- <g>
+<use x="0" y="60" xlink:href="#reference"/>
+<circle cx="50%" cy="50%" r="20%" style="fill: red; stroke: black; stroke-width: 5;"  stroke-dasharray="10" stroke-dashoffset="20" />
+scale(1 2) rotate(90)
+d="M15.2,5.4C5.5,10.1,1.1,18.8,2,31.7c14.8,32.1,138.9-59,127.8-19.7C112.1,75.3,42.2-8.8,15.2,5.4">
+<animate begin="1" dur="26" attributeName="stroke-dasharray" values="5; 500" keyTimes="0; 100" fill="indefinite"/>
+</g>-->
+
+</svg>

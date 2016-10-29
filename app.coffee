@@ -20,10 +20,11 @@ app = require('k-cup')
 glamourShots = (base,pub) ->
 	console.log "search pat #{patt = base + '*.@(png|jpeg|jpg)'}"
 	z = glob.sync patt
-	.map (c) -> src: "#{pub}/#{path.basename c}"
-	slides: z
-	preload: true
-	transition: 'blur'
+	.map (c) ->
+		src: "#{pub}/#{path.basename c}"
+		slides: z
+		preload: true
+		transition: 'blur'
 
 
 imgs = glamourShots "/113/Site/#{pub = 'public/img/glamour'}/", "/113/#{pub}"
@@ -32,7 +33,7 @@ console.log imgs
 app.io.on 'connection', (s) ->
 
 	app.sock = s
-	console.log "socket conected." ## : #{require('util').inspect s}"
+	console.log "socket conected: #{util.inspect s}" ## : #{require('util').inspect s}"
 	s.emit x,y for x,y of {
 		# person: name: 'Rene', age: 26
 		# notify: type: "success", message: "Woohoo! Connected!"

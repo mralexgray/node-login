@@ -3,8 +3,6 @@
 
 module.exports = (app) ->
 
-	
-	
 	app.locals.countries = CT
 	app.get '/', (req, res) -> # main login page
 		login = ->
@@ -13,32 +11,32 @@ module.exports = (app) ->
 
 		# check if the user's credentials are saved in a cookie //
 		return login() if not req.cookies.user? or not req.cookies.pass?
-		# attempt automatic login 
+		# attempt automatic login
 		app.AM.autoLogin req.cookies.user, req.cookies.pass, (o) ->
 			return login() if o is null
 			req.session.user = o
 			res.redirect '/home'
-			
+
 	app.post '/', (req, res) ->
-		
+
 		app.AM.manualLogin req.body['user'], req.body['pass'], (e, o) ->
-			
+
 			return res.status(400).send e if not o
-			
+
 			req.session.user = o
 			if req.body['remember-me'] is 'true'
 				res.cookie 'user', o.user, maxAge: 900000
 				res.cookie 'pass', o.pass, maxAge: 900000
 			res.status(200).send o
 
-	
+
 	app.get '/home', (req, res) -> # logged-in user homepage
-		
+
 		# if user is not logged-in redirect back to login page
 		return res.redirect '/' if req.session.user is null
 		res.render 'home',
 			udata: req.session.user, title: 'Control Panel', countries: CT
-			
+
 
 	app.post '/home', (req, res) ->
 		return res.redirect '/' if req.session.user is null
@@ -61,17 +59,17 @@ module.exports = (app) ->
 	app.post '/logout', (req, res) ->
 		res.clearCookie x for x in ['user','pass']
 		req.session.destroy (e) -> res.status(200).send 'ok'
-	
+
 	app.get '/signup', (req, res) -> # creating new accounts
 		res.render 'signup',
 			title: 'Signup'
 			countries: CT
-			
+
 	app.post '/signup', (req, res) ->
 		app.AM.addNewAccount _.mapObject(req.body, ['name','email','user','pass','country']), (e) ->
 			res.status(e and 400 or 200).send e or 'ok'
-	
-	# password reset 
+
+	# password reset
 	app.post '/lost-password', (req, res) ->
 		# look up the user's account via their email //
 		@AM.getAccountByEmail req.body['email'], (o) ->
@@ -82,13 +80,13 @@ module.exports = (app) ->
 				return res.status(200).send 'ok' if not e
 				console.log 'ERROR : ', k, e[k] for k of e
 				res.status(400).send 'unable to dispatch password reset'
-				
+
 	app.get '/reset-password', (req, res) ->
-		
+
 		[email,passH] = (req.query[x] for x in ['e','p'])
-	
+
 		@AM.validateResetLink email, passH, (e) ->
-	
+
 			return res.redirect '/' if e isnt 'ok'
 			# save the user's email in a session instead of sending to the client //
 			req.session.reset =
@@ -105,8 +103,8 @@ module.exports = (app) ->
 		@AM.updatePassword email, nPass, (e, o) ->
 			res.status(o and 200 or 400).send o and 'ok' or 'unable to update password'
 
-	
-	app.get '/print', (req, res) -> # view & delete accounts 
+
+	app.get '/print', (req, res) -> # view & delete accounts
 		@AM.getAllRecords (e, accounts) ->
 			res.render 'print',
 				title: 'Account List'
@@ -117,7 +115,7 @@ module.exports = (app) ->
 			return res.status(400).send 'record not found' if e?
 			res.clearCookie x for x in ['user','pass']
 			req.session.destroy (e) -> res.status(200).send 'ok'
-				
+
 
 	app.get '/reset', (req, res) -> @AM.delAllRecords -> res.redirect '/print'
 
@@ -130,8 +128,8 @@ module.exports = (app) ->
 				console.log err
 				return next()
 			else res.send html
-			
-				
+
+
 	###
 			render = array(app.get('views')).some(function(v){
 				var d = path.join(v,req.route.path);
@@ -148,11 +146,11 @@ module.exports = (app) ->
 	# });
 
 	###
-	app.use(function(req, res) { 
+	app.use(function(req, res) {
 		// array(app.get 'views').some (v) ->
-			// if fs    		
-	// 	res.render('index', { load: '/login', title: 'Hello - Please Login To Your Account' });		
-	// 	res.render('404', { title: 'Page Not Found'}); 
+			// if fs
+	// 	res.render('index', { load: '/login', title: 'Hello - Please Login To Your Account' });
+	// 	res.render('404', { title: 'Page Not Found'});
 	// });
 	// app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
 	###

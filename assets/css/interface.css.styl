@@ -2,13 +2,22 @@
 @import 'normalize'
 @import 'nib'
 
-hsb($h-hsb, $s-hsb, $b-hsb, $a = 1)
-  if $b-hsb == 0
-    return hsla(0, 0, 0, $a)
-  else
-    $l-hsl = ($b-hsb / 2) * (2 - ($s-hsb / 100))
-    $s-hsl = ($b-hsb * $s-hsb) / ($l-hsl < 50 ? $l-hsl * 2 : 200 - $l-hsl * 2)
-    return hsla($h-hsb, $s-hsl, $l-hsl, $a)
+.dashed
+	stroke-dasharray: 10
+
+@keyframes dash
+	from
+ 		stroke-dashoffset 1000
+	to
+		stroke-dashoffset: 0
+
+.path
+	stroke-dasharray 1000
+	stroke-dashoffset 1000
+	animation: dash 5s linear alternate infinite
+
+
+@include '../../../partials/.disabled/mixins'
 
 numberOfItems = 5
 GRAY(percent = 7, alpha = 10)
@@ -35,12 +44,11 @@ scaleToFit()
 		../../
 			display flex
 
-animate(exaggerate = 1)
-	transition all 0.5s cubic-bezier(.175,.885,.32,exaggerate)
+animate(exaggerate = 1, seconds = .5s)
+	transition all seconds cubic-bezier(.175,.885,.32,exaggerate)
 
-.logo, .nav__link
+.logo, #nav > ul > li > a
 	background dark
-
 
 .logo
 	fixed top right
@@ -52,8 +60,7 @@ ul
 	list-style-type none
 	no-pad()
 
-
-.nav, #nav-zone
+#nav, #nav-zone
 	fixed top left
 	z-index 1
 	size menusHeight
@@ -62,8 +69,10 @@ ul
 #nav-zone
 	background green
 	height navHeight
+	// z-index 10000
+	opacity .2
 
-.nav__list
+#nav > ul
 	display flex 					/* nav is a flex box */
 	flex-flow column wrap /* stackelements vertically, wrapped */
 	height navHeight
@@ -71,30 +80,30 @@ ul
 	animate()
 	&.active
 		transform translate(0,0)
-
-
-.nav__item
-	size 100%
-	flex 1
-	position relative
-
-
-.nav__link
-	display flex
-	flex-center()
-	absolute top left
-	size 100%
-	text-decoration none
-	font-size 24px
-	animate()
-	transition box-shadow 1s
-	&:hover
-		background darken(dark,30)
-		box-shadow 0px -3px 0px @color inset
-		// box-shadow:inset 0px 0px 0px 10px #f00
-		// border-bottom 10px solid white
+	& > li
+		size 100%
+		flex 1
+		position relative
+		& > a
+			display flex
+			flex-center()
+			absolute top left
+			size 100%
+			text-decoration none
+			font-size 24px
+			animate()
+			transition box-shadow 1s
+			&:hover
+				background darken(dark,30)
+				box-shadow 0px -3px 0px @color inset
+				// box-shadow:inset 0px 0px 0px 10px #f00
+				// border-bottom 10px solid white
 
 .panel
+	&.ss-active
+		// border 10px solid red !important
+		// box-shadow inset 0 0 3px 20px black
+
 	min-height 100vh
 	display flex
 	flex-center()
@@ -107,49 +116,59 @@ ul
 		&:last-child
 			margin-bottom 10vh
 
-.panel__wrapper
-	padding 7vh 7vw
-	perspective 1000px
+// .panel__wrapper
+	&.wrapper
+		padding 7vh 7vw
+		perspective 1000px
+		fixed bottom right
+		background white
+		max-width 60vw
 
-.panel__content
-	opacity 0
-	margin-left 20vw // left margin
-	will-change transform
-	transform scale(0.7) rotateX(-230deg)
-	transform-origin center 80%
-	animate(1.275)
-	&.active
-		transform none
-		opacity 1
+// .panel__content
+		// &.content
+		// 	opacity 0
+		// 	margin-left 20vw // left margin
+		// 	will-change transform
+		// 	transform scale(0.7) rotateX(-230deg)
+		// 	transform-origin center 80%
+		// 	animate(1.275,4s)
+		// 	&.active
+		// 		transform none
+		// 		opacity 1
+
+
+				// box-shadow -10px -10px -10px -10px black inset
 
 // .panel__content--active
 // 	transform none
 // 	opacity 1
 
-.panel__headline
-	font-weight 700
-	opacity 0.8
-	font-size 48px
-	margin 0 0 25px 0
+// .panel__headline
+			.headline
+				font-weight 700
+				opacity 0.8
+				font-size 48px
+				margin 0 0 25px 0
 
-.panel__block
-	height 3px
-	background rgba(0, 0, 0, 0.2)
-	margin 0 0 25px 0
+		// .panel__block
+			.block
+				height 3px
+				background rgba(0, 0, 0, 0.2)
+				margin 0 0 25px 0
 
 @media (max-width: 640px)
 	.nav
 		width 70px
-	.nav__list
-		height 90vh
-
-	.panel__headline
-		font-size 36px
-	.panel__wrapper
-		padding 10vh 10vw
+		ul
+			height 90vh
 	.panel
-		p
-			font-size 16px
+		.headline
+			font-size 36px
+	.panel
+		.wrapper
+			padding 10vh 10vw
+	.panel p
+		font-size 16px
 
 body
 	font-family 'Lato'
@@ -158,6 +177,14 @@ body
 
 
 hamburger()
+	pattyArrowAnimaton()
+		&
+			transform rotate(90deg)
+			&:before
+				transform rotate(-45deg) translate(-7px, -7px) scaleX(0.7)
+			&:after
+				transform rotate(45deg) translate(-7px, 7px) scaleX(0.7)
+
 	.burger
 		height menusHeight
 		position relative
@@ -169,6 +196,10 @@ hamburger()
 		animate()
 		&:hover
 			background lighten(@background,40)
+		& .active
+			& .patty
+				pattyArrowAnimaton()
+
 
 	patty_part(beforeNegAfterPos = -1)
 		content ""
@@ -177,7 +208,7 @@ hamburger()
 		background white
 		top (beforeNegAfterPos * 10)px
 
-	.burger__patty
+	.patty
 		position relative
 		size 60% 2px
 		background white
@@ -186,31 +217,21 @@ hamburger()
 		&:after
 			patty_part(1)
 
-	.burger__patty
-	.burger__patty:before
-	.burger__patty:after
+	.burger > .patty
+	.burger > .patty:before
+	.burger > .patty:after
 		will-change transform
 		animate(1.2)
 
-	pattyArrowAnimaton()
-		&
-			transform rotate(90deg)
-			&:before
-				transform rotate(-45deg) translate(-7px, -7px) scaleX(0.7)
-			&:after
-				transform rotate(45deg) translate(-7px, 7px) scaleX(0.7)
 
-	.burger--active
-		.burger__patty
-			pattyArrowAnimaton()
 
 	@media (max-width: 640px)
 		.burger
 			height menusHeight
-		.burger__patty
+		.burger > .patty
 			transform scale(0.8)
 		.burger--active
-			.burger__patty
+			.burger > .patty
 				transform scale(0.8) rotate(90deg)
 
 hamburger()

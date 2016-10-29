@@ -1,28 +1,42 @@
+include includes
+
 //- extends index
 //-block neck
 
-include includes
+mixin data(name,x)
+	input(id=name, type='hidden', name=name, value=x)
 
-mixin listItem(x)
-	- index = sections.indexOf(x) + 1
-	li(data-color=x.color, data-index=index)
+mixin navigation()
+	#nav-zone
+	nav#nav
+		.burger
+			.patty
+		+data('sections',sections)
+		//- +listitems()
+
+//- mixin listItem(x)
+	// - index = sections.indexOf(x) + 1
+	//- li(data-item=x)
+		//- , data-color=x.color, data-index=index)
 		a(href='#'+index, class='c-'+x.color)
 			i.fa(class='fa-' + x.icon)
 
-mixin listitems
-	each x in sections
-		+listItem(x)
+//- mixin listitems
+//- 	ul
+//- 		each x in sections
+//- 			+listItem(x)
 
-mixin panel(x)
-	- index = sections.indexOf(x) + 1
-	section.panel(style='background:' + x.color, id=index)
-		article.panel__wrapper
-			.panel__content
-				h1.panel__headline
-					i.fa(class='fa-'+x.icon) &nbsp; #{x.title}
-				.panel__block
-					p #{x.text}
+//- mixin panel(x)
+//- 	- index = sections.indexOf(x) + 1
+//- 	section.panel(style='background:' + x.color, id=index)
+//- 		article.wrapper
+//- 			.content
+//- 				h1.headline
+//- 					i.fa(class='fa-'+x.icon) &nbsp; #{x.title}
+//- 				.block
+//- 					if x.text
 
+//- 						p= x.text
 
 head
 	+vport()
@@ -30,30 +44,45 @@ head
 	+font('Lato:300,700')
 	//- +line-awesome()
 	!= css('interface')
+	+sheets('/overhang/dist/overhang.min.css')
 	+_()
 
 //- sheets('../interface/style.css')
 body
 	//- include ../../partials/wowza
-	#cam.hidden
-		include ../../partials/camera
+	//- #cam.hidden
+		//- include ../../partials/camera
 	.logo
 		img(src=logo)
-	#nav-zone
-	nav#nav
-		#burger
-			.patty
-		ul
-			+listitems()
+	+navigation()
 	#panels
-		each x in sections
+		//- each x in sections
 			+panel(x)
-	+scripts('/socket.io-client/socket.io.js')
-	!= js('socketController')
-	!= js('interface')
-	include ../../partials/carousel
+	#login
+		include login
+	//- +dasharray()
 	+cdn('jquery-scrollTo/2.1.0/jquery.scrollTo.min.js')
-	+scripts('//rawgithub.com/wtm/jquery.snapscroll/master/core/jquery.snapscroll.js')
+	+scripts('/vendor/jquery.form.min.js'
+		, '/vendor/bootstrap.min.js'
+		, '/overhang/dist/overhang.min.js'
+		, '/howler/dist/howler.min.js'
+		, '/socket.io-client/socket.io.js'
+		, '//rawgithub.com/wtm/jquery.snapscroll/master/core/jquery.snapscroll.js')
+
+
+
+	include ../../partials/carousel
+	!= js('emailValidator')
+	!= js('loginValidator')
+	!= js('accountValidator')
+	!= js('loginController')
+	!= js('signupController')
+	!= js('socketController')
+	!= js('index')
+	!= js('login')
+	!= js('signup')
+	!= js('interface')
+
 
 	script
 		:coffee-script

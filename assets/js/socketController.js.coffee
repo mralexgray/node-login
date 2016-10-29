@@ -1,14 +1,16 @@
 class SocketController
+
 	constructor: (@io = io()) ->
 
-		window['sock'] = @io
-		
-		@io.on key, val for key,val of {
-			
-			
-			
+		connectedMsg = 'successfully established a working and authorized connection'
+
+		(window['sock'] = @io).on key, val for key,val of {
+
+			connect: ->	console.info connectedMsg
+			carousel: (i) -> carousel i, $('section').first()
+
 			jq: (q) -> $(key)[sel] q[key][sel] for sel of q[key] for key of q
-			
+
 			# Whenever the server emits 'login', log the login message
 			login: (data) ->
 				# Display the welcome message
@@ -18,16 +20,11 @@ class SocketController
 
 			error: (r) -> console.error 'Unable to connect Socket.IO', r
 
-			connect: ->
-				console.info 'successfully established a working and authorized connection'
-			
-			carousel: (i) -> carousel i, $('section').first()
-			
+
 			person: (p) ->	console.log "#{p.name} is #{p.age} years old."
 
 			notify: (note) -> $('body').overhang(note)
 			}
-
 
 window['SocketController'] = new SocketController()
 
